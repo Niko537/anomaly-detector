@@ -13,12 +13,12 @@ class color:
    END = '\033[0m'
 
 # Тестовый забор данных временного ряда по различным метрикам
-dp = ad.DataProcesser(f'''select f.IDAY as DAY,
-       													 d.CNAME as NAME,
-       													 sum(f.NVALUE) as VALUE
-													from VEGA_DS.TBL_F_BASIC_METRICS f
-         												join VEGA_DS.TBL_D_BASIC_METRICS d on d.CCODE = f.CCODE
-													where toDate(parseDateTimeBestEffort(toString(f.IDAY))) >= today() - 30
+dp = ad.DataProcesser(f'''select T1.DAY as DAY,
+       													 T1.NAME as NAME,
+       													 sum(T2.VALUE) as VALUE
+													from DB.SCHEMA.TABLE1 T1
+         												join DB.SCHEMA.TABLE2 T2 on T2.KEY = T1.KEY
+													where toDate(parseDateTimeBestEffort(toString(T1.DAY))) >= today() - 30
 													group by DAY,
          													 NAME
 													order by DAY''')
